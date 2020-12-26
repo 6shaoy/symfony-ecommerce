@@ -1,0 +1,47 @@
+{% extends "base.html.twig" %}
+
+{# {% form_theme formView _self %} #}
+{# {% form_theme formView 'bootstrap_4_layout.html.twig' %} #}
+
+{% block title %}
+	Edit le Produit
+{% endblock %}
+
+{% block body %}
+	<h1>Edit le Produit</h1>
+
+	{# {{ form(formView) }} #}
+
+	{{ form_start(formView) }}
+	{{ form_errors(formView) }}
+	{# {{ form_widget(formView) }} #}
+
+	<div class="row">
+		<div class="col">
+			{{ form_row(formView.name) }}
+			{{ form_row(formView.price) }}
+		</div>
+		<div class="col">
+            {{ form_row(formView.mainPicture) }}
+			{{ form_row(formView.shortDescription) }}
+			{{ form_row(formView.category) }}
+		</div>
+	</div>
+
+
+	<button class="btn btn-primary" type="submit">
+		<i class="fas fa-save"></i>
+		Edit le Produit
+	</button>
+	{{ form_end(formView) }}
+{% endblock %}
+
+
+{# {% block form_row %}
+    <div class="form-group">
+        {{ form_label(form) }}
+        {{ form_widget(form, { 'attr': {'class': 'form-control'} }) }}
+        {{ form_help(form) }}
+        {{ form_errors(form) }}
+    </div>
+{% endblock %} #}
