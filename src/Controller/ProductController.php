@@ -122,6 +122,7 @@ class ProductController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted()){
+            // dd($product);
             $em->flush();
             return $this->redirectToRoute('product_show', [
                 'category_slug' => $product->getCategory()->getSlug(),
@@ -140,11 +141,13 @@ class ProductController extends AbstractController
      */
     public function create(Request $request, SluggerInterface $slug, EntityManagerInterface $em)
     {
-        $form = $this->createForm(ProductType::class);
+        $product = new Product;
+        
+        $form = $this->createForm(ProductType::class, $product);
 
         $form->handleRequest($request);
         if($form->isSubmitted()){
-            $product = $form->getData();
+            // $product = $form->getData();
             $product->setSlug(strtolower($slug->slug($product->getName())));
             $em->persist($product);
             $em->flush();
