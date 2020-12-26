@@ -61,7 +61,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/admin/product/create_old", name="product_create")
+     * @Route("/admin/product/create_old", name="product_create_old")
      */
     public function create_old(FormFactoryInterface $formFactory, Request $request, SluggerInterface $slug, EntityManagerInterface $em)
     {
