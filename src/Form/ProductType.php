@@ -31,11 +31,11 @@ class ProductType extends AbstractType
                 'label' => 'Description courte',
                 'attr' => ['placeholder' => 'Tapez la description courte']
             ])
-            // ->add('price', MoneyType::class, [
-            //     'label' => 'Prix du produit',
-            //     'attr' => ['placeholder' => 'Tapez le prix en Euro'],
-            //     'divisor' => 100
-            // ])
+            ->add('price', MoneyType::class, [
+                'label' => 'Prix du produit',
+                'attr' => ['placeholder' => 'Tapez le prix en Euro'],
+                'divisor' => 100
+            ])
             ->add('mainPicture', UrlType::class, [
                 'label' => 'Image du Produit',
                 'attr' => ['placeholder' => 'Tapez une URL d\'image']
@@ -49,10 +49,10 @@ class ProductType extends AbstractType
                     return strtoupper($category->getName());
                 }
             ])
-            ->add('price', PriceType::class, [
-                'label' => 'Prix',
-                'attr' => ['placeholder' => 'test my own type field'],
-            ])
+            // ->add('price', PriceType::class, [
+            //     'label' => 'Prix',
+            //     'attr' => ['placeholder' => 'test my own type field'],
+            // ])
         ;
 
 

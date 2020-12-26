@@ -121,7 +121,7 @@ class ProductController extends AbstractController
         $form = $this->createForm(ProductType::class, $product);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted()){
+        if ($form->isSubmitted() && $form->isValid()){
             // dd($product);
             $em->flush();
             return $this->redirectToRoute('product_show', [
@@ -146,7 +146,7 @@ class ProductController extends AbstractController
         $form = $this->createForm(ProductType::class, $product);
 
         $form->handleRequest($request);
-        if($form->isSubmitted()){
+        if($form->isSubmitted() && $form->isValid()){
             // $product = $form->getData();
             $product->setSlug(strtolower($slug->slug($product->getName())));
             $em->persist($product);
