@@ -17,14 +17,17 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $utils): Response
     {
-        dump($utils->getLastAuthenticationError());
         $form = $this->createForm(LoginType::class, [
             'email' => $utils->getLastUsername()
         ]);
-        return $this->render('security/login.html.twig', [
-            'formView' => $form->createView(),
-            'error' => $utils->getLastAuthenticationError()
-        ]);
+
+        $data = ['formView' => $form->createView(), 'error' => null];
+        $error = $utils->getLastAuthenticationError();
+        if ($error) {
+            $data['error'] = $error->getMessage();
+        }
+
+        return $this->render('security/login.html.twig', $data);
 
         // $utils->getLastAuthenticationError 需要从request或者session中获取错误信息
     }
@@ -32,5 +35,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/logout", name="security_logout")
      */
-    public function logout(){}
+    public function logout()
+    {
+    }
 }

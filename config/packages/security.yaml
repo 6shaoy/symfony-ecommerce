@@ -18,18 +18,18 @@ security:
             anonymous: true
             lazy: true
             provider: app_user_provider
-            guard:
-                authenticators:
-                    - App\Security\LoginFormAuthenticator
+            # guard:
+            #     authenticators:
+            #         - App\Security\LoginFormAuthenticator
 
             logout:
                 path: security_logout
 
-            # form_login:
-            #     login_path: security_login
-            #     check_path: security_login
-            #     username_parameter: login[email]
-            #     password_parameter: login[password]
+            form_login:
+                login_path: security_login
+                check_path: security_login
+                username_parameter: login[email]
+                password_parameter: login[password]
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
