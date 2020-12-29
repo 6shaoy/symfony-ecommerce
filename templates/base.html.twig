@@ -11,6 +11,7 @@
     <body>
         {% include "shared/_navbar.html.twig" %}
         <div class="container pt-5">
+            {% include "shared/_flash.html.twig" %}
             {% block body %}{% endblock %}
         </div>
         {% block javascripts %}{% endblock %}
