@@ -5,8 +5,8 @@ namespace App\Controller\Purchase;
 use DateTime;
 use App\Entity\Purchase;
 use App\Cart\CartService;
-use App\Entity\PurchaseItem;
 use App\Form\CartConfirmationType;
+use App\Purchase\PurchasePersister;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +19,7 @@ class PurchaseConfirmationController extends AbstractController
      * @Route("/purchase/confirm", name="purchase_confirm")
      * @IsGranted("ROLE_USER", message="vous devez connecté!")
      */
-    public function confirm(Request $request, CartService $cartService, EntityManagerInterface $em)
+    public function confirm(Request $request, CartService $cartService, PurchasePersister $persister)
     {
         // 1 lire les donnees du formulaire
         // FormFactoryInterface / Request
@@ -33,7 +33,7 @@ class PurchaseConfirmationController extends AbstractController
         }
 
         // 3 si je ne suis pas connecte: degager (security)
-        $user = $this->getUser();
+        // $user = $this->getUser();
 
         // 4 si il n'y a pas de produits dans mon panier: degager (cartService)
         $cartItems = $cartService->getDetailCart();
@@ -46,30 +46,32 @@ class PurchaseConfirmationController extends AbstractController
         /** @var Purchase */
         $purchase = $form->getData();
 
-        // 6 lier avec l'utilisateur actuellement connecte (security) 
-        $purchase
-            ->setUser($user)
-            ->setPurchaseAt(new DateTime())
-            ->setTotal($cartService->getTotal())
-        ;
+        // // 6 lier avec l'utilisateur actuellement connecte (security) 
+        // $purchase
+        //     ->setUser($user)
+        //     ->setPurchaseAt(new DateTime())
+        //     ->setTotal($cartService->getTotal())
+        // ;
 
-        // 7 lier avec les produits dans le panier (cartService)
-        foreach($cartService->getDetailCart() as $cartItem){
-            $purchaseItem = new PurchaseItem;
-            $purchaseItem
-                ->setPurchase($purchase)
-                ->setProduct($cartItem->product)
-                ->setProductName($cartItem->product->getName())
-                ->setProductPrice($cartItem->product->getPrice())
-                ->setQuantity($cartItem->qty)
-                ->setTotal($cartItem->getTotal())
-            ;
-            $em->persist($purchaseItem);
-        }
+        // // 7 lier avec les produits dans le panier (cartService)
+        // foreach($cartService->getDetailCart() as $cartItem){
+        //     $purchaseItem = new PurchaseItem;
+        //     $purchaseItem
+        //         ->setPurchase($purchase)
+        //         ->setProduct($cartItem->product)
+        //         ->setProductName($cartItem->product->getName())
+        //         ->setProductPrice($cartItem->product->getPrice())
+        //         ->setQuantity($cartItem->qty)
+        //         ->setTotal($cartItem->getTotal())
+        //     ;
+        //     $em->persist($purchaseItem);
+        // }
 
-        // 8 enregistrer la commande (entityManagerInterface)
-        $em->persist($purchase);
-        $em->flush();
+        // // 8 enregistrer la commande (entityManagerInterface)
+        // $em->persist($purchase);
+        // $em->flush();
+
+        $persister->storePurchase($purchase);
 
         $cartService->empty();
         $this->addFlash('success', 'La commande a bien ete enregistree');
